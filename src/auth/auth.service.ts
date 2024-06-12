@@ -18,7 +18,7 @@ export class AuthService {
      * 2) loginWithEmail
      *      - email, password을 입력하면 사용자 검증을 진행한다.
      *      - 검증이 완료되면  accessToken과 refreshToken을 반환한다.
-     * 3) loginUser
+     * 3) loginUser             ✅(6월 12일 오후 11시)
      *      - (1)과 (2)에서 필요한 accessToken과 refreshToken을 반환하는 로직
      * 4) signToken             ✅(6월 12일 오후 8시 50분경)
      *      - (3)에서 필요한 accessToken과 refreshToken을 sign하는 로직
@@ -54,4 +54,13 @@ export class AuthService {
             refreshToken: this.signToken(user, true),
         }
     }
+
+    authenticatenWithEmailAndPassword(email: string, password: string){
+        /*
+        *   1. 사용자가 존재하는지 확인 => email로 확인
+        *   2. 비밀번호가 맞는지 확인
+        *   3. 모두 통과되면 찾은 사용자 정보 반환
+        */
+    }
+    
 }
