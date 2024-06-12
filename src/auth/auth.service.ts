@@ -47,4 +47,11 @@ export class AuthService {
             expiresIn: isRefreshToken ? 3600 : 300,
         });
     }
+
+    loginUser(user : string){
+        return{
+            accessToken: this.signToken(user, false),
+            refreshToken: this.signToken(user, true),
+        }
+    }
 }
