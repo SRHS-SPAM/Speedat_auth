@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { JWT_SECRET } from './const/auth.const';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +36,15 @@ export class AuthService {
      * 2)type : 'access' | 'refresh'
      */
 
-    signToken(
-
-    ){}
+    signToken(email: string, isRefreshToken : boolean){
+        const payload = {
+            email,
+            type : isRefreshToken? 'refresh' : 'access',
+        };
+        return this.jwtService.sign(payload, {
+            secret: JWT_SECRET,
+            //초 단위로
+            expiresIn: isRefreshToken ? 3600 : 300,
+        });
+    }
 }
