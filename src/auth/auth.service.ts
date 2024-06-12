@@ -20,7 +20,7 @@ export class AuthService {
      *      - 검증이 완료되면  accessToken과 refreshToken을 반환한다.
      * 3) loginUser
      *      - (1)과 (2)에서 필요한 accessToken과 refreshToken을 반환하는 로직
-     * 4) signToken             ✅
+     * 4) signToken             ✅(6월 12일 오후 8시 50분경)
      *      - (3)에서 필요한 accessToken과 refreshToken을 sign하는 로직
      * 5) authenticatenWithEmailAndPassword
      *      - (2)에서 로그인을 진행할때 필요한 기본적인 검증 진행
