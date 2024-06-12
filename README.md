@@ -1,4 +1,5 @@
-## 파일 구조
+# 프로젝트 파일 구조
+```plaintext
 src/
 ├── auth/
 │   ├── auth.module.ts
@@ -19,6 +20,7 @@ src/
 │       └── user.entity.ts
 ├── app.module.ts
 └── main.ts
+```
 
 
 
