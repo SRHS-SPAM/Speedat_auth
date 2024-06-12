@@ -10,7 +10,7 @@ export class AuthService {
     /** 
      *  만들려는 기능
      * 1) registerWithEmail
-     *      - email, password, name
+     *      - email, password, name, class, number
      *      - 생성이 완료되면 accessToken과 refreshTokena을 반환한다.
      *      - 회원가입 완료 후 다시 로그인해 주세요 <- 를 방지하기 위해서
      * 
@@ -28,4 +28,14 @@ export class AuthService {
      *        3. 모두 통과되면 찾은 사용자 정보 반환
      *        4. loginWithEmail에서 반환된 데이터를 기반으로 토큰 생성
      */
+
+    /**
+     * Payload에 들어갈 정보
+     * 1)email
+     * 2)type : 'access' | 'refresh'
+     */
+
+    signToken(
+
+    ){}
 }
