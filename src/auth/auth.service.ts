@@ -56,7 +56,7 @@ export class AuthService {
     }
 
     authenticatenWithEmailAndPassword(email: string, password: string){
-        /*
+        /* 
         *   1. 사용자가 존재하는지 확인 => email로 확인
         *   2. 비밀번호가 맞는지 확인
         *   3. 모두 통과되면 찾은 사용자 정보 반환
