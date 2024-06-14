@@ -1,3 +1,25 @@
+# 프로젝트 파일 구조
+src/
+├── auth/
+│   ├── auth.module.ts
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── jwt.strategy.ts
+│   └── dto/
+│       ├── register.dto.ts
+│       └── login.dto.ts
+├── email/
+│   ├── email.module.ts
+│   └── email.service.ts
+├── user/
+│   ├── user.module.ts
+│   ├── user.controller.ts
+│   ├── user.service.ts
+│   └── entity/
+│       └── user.entity.ts
+├── app.module.ts
+└── main.ts
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
