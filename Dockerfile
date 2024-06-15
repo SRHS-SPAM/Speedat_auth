@@ -7,8 +7,11 @@ WORKDIR /app
 # package.json과 yarn.lock 파일 복사
 COPY package*.json yarn.lock ./
 
+# yarn 저장소 URL 변경 (https://registry.npmjs.org/ 사용)
+RUN yarn config set registry https://registry.yarn.org/
+
 # 의존성 패키지 설치
-RUN yarn install --frozen-lockfile 
+RUN yarn install 
 
 # 나머지 프로젝트 파일 복사
 COPY . .
