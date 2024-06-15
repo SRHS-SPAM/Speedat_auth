@@ -1,54 +1,49 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
+import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/UpdateUserDto';
-import * as bcrypt from 'bcrypt';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Injectable()
+@Controller('users')
 export class UsersController {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const user = this.usersRepository.create({
-      ...createUserDto,
-      password: hashedPassword,
-    });
-    return this.usersRepository.save(user);
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
   }
 
-  async findOne(id: string): Promise<User> {
-    const userId = parseInt(id, 10);
-    return this.usersRepository.findOne({ where: { id: userId } });
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(+id);
   }
 
-  findByEmail(email: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { email } });
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(+id, updateUserDto);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const userId = parseInt(id, 10);
-    const user = await this.findOne(userId.toString());
-
-    if (updateUserDto.password) {
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
-    }
-
-    Object.assign(user, updateUserDto);
-    return this.usersRepository.save(user);
-  }
-
-  async remove(id: string): Promise<void> {
-    const userId = parseInt(id, 10);
-    await this.usersRepository.delete(userId);
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(+id);
   }
 }
