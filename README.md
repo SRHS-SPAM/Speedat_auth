@@ -1,3 +1,10 @@
+# npm install해야 하는 것들
+npm install typeorm
+npm install class-validator 
+npm install @nestjs/passport passport
+npm install @nestjs/typeorm typeorm
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
