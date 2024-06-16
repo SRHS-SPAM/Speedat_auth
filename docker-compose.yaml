@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: speedat_auth
+    environment:
+      POSTGRES_USER: speedat_auth
+      POSTGRES_PASSWORD: speedat_auth
+      POSTGRES_DB: speedat_auth
+      MAIL_HOST: smtp.zoho.com
+      MAIL_PORT: 456
+      MAIL_SECURE: true
+      MAIL_USER: verify@speedat.site
+      MAIL_PASSWORD: js9xUc!g
+    ports:
+      - "5432:5432"
+    volumes:
+      - speedat_auth_1_data:/var/lib/postgresql/data/
+
+volumes:
+  speedat_authdata:
