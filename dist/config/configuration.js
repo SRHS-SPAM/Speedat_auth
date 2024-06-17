@@ -1,28 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = () => ({
-    port: parseInt(process.env.PORT, 10) || 5433,
     database: {
-        type: 'postgres',
         host: process.env.DB_HOST,
-        port: parseInt(process.env.DB_PORT, 10),
-        username: process.env.DB_USER,
+        port: parseInt(process.env.DB_PORT, 10) || 5433,
+        username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: true,
     },
     jwt: {
-        secret: process.env.JWT_SECRET || 'dmddndPs',
-        expiresIn: process.env.JWT_EXPIRES_IN || '1d',
+        secret: process.env.JWT_SECRET,
     },
-    smtp: {
-        host: process.env.SMTP_HOST || 'smtp.zoho.com',
-        port: parseInt(process.env.SMTP_PORT, 10) || 456,
-        secure: process.env.SMTP_SECURE === 'true',
+    mail: {
+        host: process.env.MAIL_HOST,
+        port: parseInt(process.env.MAIL_PORT, 10) || 456,
+        secure: process.env.MAIL_SECURE === 'true',
         auth: {
-            user: process.env.SMTP_USER || 'verify@speedat.site',
-            pass: process.env.SMTP_PASSWORD || 'js9xUc!g',
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASSWORD,
         },
     },
 });

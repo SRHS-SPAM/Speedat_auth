@@ -12,14 +12,28 @@ const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./entities/user.entity");
+const passport_1 = require("@nestjs/passport");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]), UsersModule],
-        providers: [users_service_1.UsersService],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
+            passport_1.PassportModule,
+            jwt_1.JwtModule.registerAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (configService) => ({
+                    secret: configService.get('jwt.secret'),
+                    signOptions: { expiresIn: '1d' },
+                }),
+                inject: [config_1.ConfigService],
+            }),
+        ],
         controllers: [users_controller_1.UsersController],
+        providers: [users_service_1.UsersService],
         exports: [users_service_1.UsersService],
     })
 ], UsersModule);

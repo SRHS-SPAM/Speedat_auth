@@ -16,17 +16,38 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
-const updata_user_dto_1 = require("./dto/updata-user.dto");
-const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const update_user_dto_1 = require("./dto/update-user.dto");
+const login_user_dto_1 = require("./dto/login-user.dto");
+const passport_1 = require("@nestjs/passport");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    create(createUserDto) {
+    async create(createUserDto) {
         return this.usersService.create(createUserDto);
     }
-    update(id, updateUserDto) {
+    async findAll() {
+        return this.usersService.findAll();
+    }
+    async findOne(id) {
+        return this.usersService.findOne(+id);
+    }
+    async update(req, id, updateUserDto) {
+        if (req.user.id !== +id) {
+        }
         return this.usersService.update(+id, updateUserDto);
+    }
+    async remove(req, id) {
+        if (req.user.id !== +id) {
+        }
+        return this.usersService.remove(+id);
+    }
+    async login(loginUserDto) {
+        return this.usersService.login(loginUserDto);
+    }
+    async generateTempPassword(body) {
+        const email = body.email;
+        return this.usersService.generateTempPassword(email);
     }
 };
 exports.UsersController = UsersController;
@@ -35,17 +56,54 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "create", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Get)(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, updata_user_dto_1.UpdateUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('login'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [login_user_dto_1.LoginUserDto]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('temp-password'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "generateTempPassword", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

@@ -10,11 +10,12 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const users_module_1 = require("./users/users.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
-const users_module_1 = require("./users/users.module");
-const auth_module_1 = require("./auth/auth.module");
 const configuration_1 = require("./config/configuration");
+const mailer_1 = require("@nestjs-modules/mailer");
+const handlebars_adapter_1 = require("@nestjs-modules/mailer/dist/adapters/handlebars.adapter");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -27,11 +28,44 @@ exports.AppModule = AppModule = __decorate([
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 imports: [config_1.ConfigModule],
-                useFactory: (configService) => configService.get('database'),
+                useFactory: (configService) => ({
+                    type: 'postgres',
+                    host: configService.get('database.host'),
+                    port: configService.get('database.port'),
+                    username: configService.get('database.username'),
+                    password: configService.get('database.password'),
+                    database: configService.get('database.database'),
+                    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                    synchronize: true,
+                }),
+                inject: [config_1.ConfigService],
+            }),
+            mailer_1.MailerModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: (configService) => ({
+                    transport: {
+                        host: configService.get('mail.host'),
+                        port: configService.get('mail.port'),
+                        secure: configService.get('mail.secure'),
+                        auth: {
+                            user: configService.get('mail.auth.user'),
+                            pass: configService.get('mail.auth.pass'),
+                        },
+                    },
+                    defaults: {
+                        from: '"No Reply" <noreply@example.com>',
+                    },
+                    template: {
+                        dir: process.cwd() + '/template/',
+                        adapter: new handlebars_adapter_1.HandlebarsAdapter(),
+                        options: {
+                            strict: true,
+                        },
+                    },
+                }),
                 inject: [config_1.ConfigService],
             }),
             users_module_1.UsersModule,
-            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

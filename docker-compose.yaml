@@ -1,17 +1,21 @@
-version: '3.9'
 services:
   postgres:
     image: postgres:15
     restart: always
-    container_name: speedat_postgres
+    container_name: speedat_auth_1
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: speedat_auth_1
+      POSTGRES_PASSWORD: speedat_auth_1
+      POSTGRES_DB: speedat_auth_1
+      MAIL_HOST: smtp.zoho.com
+      MAIL_PORT: 456
+      MAIL_SECURE: true
+      MAIL_USER: verify@speedat.site
+      MAIL_PASSWORD: js9xUc!g
     ports:
-      - "${DB_PORT}:5432"
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - speedat_auth_1_data:/var/lib/postgresql/data/
 
 volumes:
-  postgres_data:
+  speedat_auth_1_data:

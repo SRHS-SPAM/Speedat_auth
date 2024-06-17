@@ -1,9 +1,9 @@
 export declare class User {
     id: number;
     name: string;
-    class: string;
-    studentId: number;
     grade: number;
+    class: number;
+    number: number;
     email: string;
     password: string;
     createdAt: Date;
